@@ -1,5 +1,5 @@
 name: Deploy to AWS
-
+# main branch에 푸시 될때 마다
 on:
   push:
     branches: [ main ]
@@ -7,23 +7,23 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: backend-portfolio
-
+# deploy 라는 job을 실행하게되고, ubuntu 라는 환경에서 작업을 시작하게됩니다.
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+    # 첫 번째로 JDK를 설정합니다. JDK17로 설정한 다음에
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Set up JDK 17
       uses: actions/setup-java@v2
       with:
         java-version: '17'
         distribution: 'adopt'
-    
+      # gradle build를 거치게 됩니다.
     - name: Build with Gradle
       run: ./gradlew build
-    
+      # AWS credentials을 설정해줍니다.
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
